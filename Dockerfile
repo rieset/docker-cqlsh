@@ -1,8 +1,8 @@
-FROM python:2.7-alpine3.8
+FROM python:2.7
 
 WORKDIR /scripts
 
-ENV CQLVERSION="3.4.5" \
+ENV CQLVERSION="3.4.6" \
     CQLSH_HOST="cassandra" \
     CQLSH_PORT="9042"
 
