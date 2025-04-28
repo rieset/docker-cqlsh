@@ -6,9 +6,8 @@ ENV CQLVERSION="3.4.4" \
     CQLSH_HOST="cassandra" \
     CQLSH_PORT="9042"
 
-RUN pip install -Ivq cqlsh==5.0.4 \
+RUN pip install cqlsh \
     && apk add --no-cache bash \
-    && echo 'alias cqlsh="cqlsh --cqlversion ${CQLVERSION} $@"' >> /.bashrc \
     && mkdir /.cassandra
 
 COPY ["entrypoint.sh", "/usr/local/bin"]
