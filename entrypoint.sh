@@ -12,7 +12,7 @@ cqlsh=( cqlsh --cqlversion ${CQLVERSION} )
 # test connection to cassandra
 echo "Checking connection to cassandra..."
 for i in {1..50}; do
-  if "${cqlsh[@]}" -e "show host;" 2> /dev/null; then
+  if "${cqlsh[@]}" -u "$CQLSH_USER" -p "$CQLSH_PASS" -e "show host;" 2> /dev/null; then
     break
   fi
   echo "Can't establish connection, will retry again in $i sconds"
