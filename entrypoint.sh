@@ -4,12 +4,14 @@
 export CQLVERSION=${CQLVERSION:-"3.4.4"}
 export CQLSH_HOST=${CQLSH_HOST:-"cassandra"}
 export CQLSH_PORT=${CQLSH_PORT:-"9042"}
+export CQLSH_PASS=${CQLSH_PASS:-""}
+export CQLSH_USER=${CQLSH_USER:-""}
 
 cqlsh=( cqlsh --cqlversion ${CQLVERSION} )
 
 # test connection to cassandra
 echo "Checking connection to cassandra..."
-for i in {1..5}; do
+for i in {1..50}; do
   if "${cqlsh[@]}" -e "show host;" 2> /dev/null; then
     break
   fi
@@ -17,7 +19,7 @@ for i in {1..5}; do
   sleep $i
 done
 
-if [ "$i" = 5 ]; then
+if [ "$i" = 50 ]; then
   echo >&2 "Failed to connect to cassandra at ${CQLSH_HOST}:${CQLSH_PORT}"
   exit 1
 fi
@@ -26,7 +28,7 @@ fi
 for file in /scripts/*.cql; do
   [ -e "$file" ] || continue
   echo "Executing $file..."
-  "${cqlsh[@]}" -f "$file"
+  "${cqlsh[@]}" -u "$CQLSH_USER" -p "$CQLSH_PASS" -f "$file"
 done
 
 echo "Done."
